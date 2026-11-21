@@ -21,6 +21,12 @@ TEXT = (
 
 DST = "/output/entry.txt"
 
+# The gate the entry is held to: 1-280 Unicode code points, UTF-8,
+# not only white space. Fail loudly here rather than writing an
+# entry the gate would refuse.
+if not 1 <= len(TEXT) <= 280 or not TEXT.strip():
+    raise ValueError("poem fails the 1-280 character gate")
+
 os.makedirs(os.path.dirname(DST), exist_ok=True)
 with open(DST, "w", encoding="utf-8") as f:
     f.write(TEXT)
